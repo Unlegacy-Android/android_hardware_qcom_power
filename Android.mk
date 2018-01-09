@@ -23,6 +23,12 @@ LOCAL_SHARED_LIBRARIES := liblog \
                           libutils \
                           android.hardware.power@1.0
 
+ifeq ($(TARGET_BOARD_PLATFORM),msm8960)
+LOCAL_CFLAGS += -DPLATFORM_MSM8960
+else ifeq ($(TARGET_BOARD_PLATFORM),msm8974)
+LOCAL_CFLAGS += -DPLATFORM_MSM8974
+endif
+
 include $(BUILD_EXECUTABLE)
 
 endif

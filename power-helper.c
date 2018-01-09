@@ -48,10 +48,19 @@
 #define TOTAL_CPUS 4
 #define RETRY_TIME_CHANGING_FREQ 20
 #define SLEEP_USEC_BETWN_RETRY 200
+#define UEVENT_STRING "online@/devices/system/cpu/"
+
+#if defined(PLATFORM_MSM8960)
 #define LOW_POWER_MAX_FREQ "1026000"
 #define LOW_POWER_MIN_FREQ "384000"
 #define NORMAL_MAX_FREQ "1512000"
-#define UEVENT_STRING "online@/devices/system/cpu/"
+#elif defined(PLATFORM_MSM8974)
+#define LOW_POWER_MAX_FREQ "729600"
+#define LOW_POWER_MIN_FREQ "300000"
+#define NORMAL_MAX_FREQ "2265600"
+#else
+#error "Unknown platform."
+#endif
 
 static int client_sockfd;
 static struct sockaddr_un client_addr;
