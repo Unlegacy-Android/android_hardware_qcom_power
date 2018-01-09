@@ -32,8 +32,9 @@
 #define LOG_TAG "PowerHAL"
 #include <utils/Log.h>
 
-#include <hardware/hardware.h>
 #include <hardware/power.h>
+
+#include "power-helper.h"
 
 #define STATE_ON "state=1"
 #define STATE_OFF "state=0"
@@ -203,7 +204,7 @@ static void uevent_init()
     return;
 }
 
-static void power_init(__attribute__((unused)) struct power_module *module)
+void power_init(void)
 {
     ALOGI("%s", __func__);
     socket_init();
@@ -318,7 +319,7 @@ static void touch_boost()
     }
 }
 
-static void power_set_interactive(__attribute__((unused)) struct power_module *module, int on)
+void power_set_interactive(int on)
 {
     if (last_state == -1) {
         last_state = on;
@@ -338,8 +339,7 @@ static void power_set_interactive(__attribute__((unused)) struct power_module *m
     }
 }
 
-static void power_hint( __attribute__((unused)) struct power_module *module,
-                      power_hint_t hint, __attribute__((unused)) void *data)
+void power_hint(power_hint_t hint, void *data)
 {
     int cpu, ret;
 
@@ -360,6 +360,7 @@ static void power_hint( __attribute__((unused)) struct power_module *module,
 
         case POWER_HINT_LOW_POWER:
              pthread_mutex_lock(&low_power_mode_lock);
+             ALOGI("POWER_HINT_LOW_POWER");
              if (data) {
                  low_power_mode = true;
                  for (cpu = 0; cpu < TOTAL_CPUS; cpu++) {
@@ -384,23 +385,3 @@ static void power_hint( __attribute__((unused)) struct power_module *module,
              break;
     }
 }
-
-static struct hw_module_methods_t power_module_methods = {
-    .open = NULL,
-};
-
-struct power_module HAL_MODULE_INFO_SYM = {
-    .common = {
-        .tag = HARDWARE_MODULE_TAG,
-        .module_api_version = POWER_MODULE_API_VERSION_0_2,
-        .hal_api_version = HARDWARE_HAL_API_VERSION,
-        .id = POWER_HARDWARE_MODULE_ID,
-        .name = "Qualcomm Power HAL",
-        .author = "The Android Open Source Project",
-        .methods = &power_module_methods,
-    },
-
-    .init = power_init,
-    .setInteractive = power_set_interactive,
-    .powerHint = power_hint,
-};
