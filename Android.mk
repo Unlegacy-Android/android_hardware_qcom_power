@@ -23,6 +23,8 @@ LOCAL_SHARED_LIBRARIES := liblog \
                           libutils \
                           android.hardware.power@1.0
 
+LOCAL_CFLAGS += -DPLATFORM_$(TARGET_BOARD_PLATFORM:msm%=MSM%)
+
 include $(BUILD_EXECUTABLE)
 
 endif
