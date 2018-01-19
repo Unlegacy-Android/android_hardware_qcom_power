@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cf30cffc_4eb0383d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2018-01-19T14:07:31Z",
+      "side": 1,
+      "message": "Signed-off-by: Dániel Járai \u003cjaraidaniel@gmail.com\u003e",
+      "revId": "ea431c32d01506895e1372dff944af607cd794a8",
+      "serverId": "d5e41ece-075f-43fb-b5a6-48951f3d7b1d",
+      "unresolved": false
+    }
+  ]
+}
