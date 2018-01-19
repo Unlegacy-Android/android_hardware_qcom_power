@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "098c0fed_ad13763f",
+        "filename": "Android.mk",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2018-01-19T13:27:28Z",
+      "side": 1,
+      "message": "Given the earlier guards, we can simplify this to something like:\nLOCAL_CFLAGS +\u003d -DPLATFORM_$(TARGET_BOARD_PLATFORM:msm%\u003dMSM%)",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 5
+      },
+      "revId": "0ddb480ab1d6ac58cf19c3b3b077d97978e0dd1a",
+      "serverId": "d5e41ece-075f-43fb-b5a6-48951f3d7b1d",
+      "unresolved": false
+    }
+  ]
+}
