@@ -220,6 +220,36 @@ void power_init(void)
     uevent_init();
 }
 
+#ifndef NO_BOOST_SYNC
+static void sync_thread(int off)
+{
+    int rc;
+    pid_t client;
+    char data[MAX_LENGTH];
+
+    if (client_sockfd < 0) {
+        ALOGE("%s: boost socket not created", __func__);
+        return;
+    }
+
+    client = getpid();
+
+    if (!off) {
+        snprintf(data, MAX_LENGTH, "2:%d", client);
+        rc = sendto(client_sockfd, data, strlen(data), 0,
+            (const struct sockaddr *)&client_addr, sizeof(struct sockaddr_un));
+    } else {
+        snprintf(data, MAX_LENGTH, "3:%d", client);
+        rc = sendto(client_sockfd, data, strlen(data), 0,
+            (const struct sockaddr *)&client_addr, sizeof(struct sockaddr_un));
+    }
+
+    if (rc < 0) {
+        ALOGE("%s: failed to send: %s", __func__, strerror(errno));
+    }
+}
+#endif
+
 static void enc_boost(int off)
 {
     int rc;
@@ -261,9 +291,15 @@ static void process_video_encode_hint(void *metadata)
     if (metadata) {
         if (!strncmp(metadata, STATE_ON, sizeof(STATE_ON))) {
             /* Video encode started */
+#ifndef NO_BOOST_SYNC
+            sync_thread(1);
+#endif
             enc_boost(1);
         } else if (!strncmp(metadata, STATE_OFF, sizeof(STATE_OFF))) {
             /* Video encode stopped */
+#ifndef NO_BOOST_SYNC
+            sync_thread(0);
+#endif
             enc_boost(0);
         }  else if (!strncmp(metadata, STATE_HDR_ON, sizeof(STATE_HDR_ON))) {
             /* HDR usecase started */
@@ -311,7 +347,14 @@ void power_set_interactive(int on)
 
     ALOGV("%s %s", __func__, (on ? "ON" : "OFF"));
     if (on) {
+#ifndef NO_BOOST_SYNC
+        sync_thread(0);
+#endif
         touch_boost();
+#ifndef NO_BOOST_SYNC
+    } else {
+        sync_thread(1);
+#endif
     }
 }
 
