@@ -24,6 +24,8 @@ LOCAL_SHARED_LIBRARIES := liblog \
                           android.hardware.power@1.0
 
 LOCAL_CFLAGS += -DPLATFORM_$(TARGET_BOARD_PLATFORM:msm%=MSM%)
+LOCAL_CFLAGS += $(if $(filter true,$(BOARD_QCOM_NO_BOOST_SYNC)), \
+                -DNO_BOOST_SYNC)
 
 include $(BUILD_EXECUTABLE)
 
