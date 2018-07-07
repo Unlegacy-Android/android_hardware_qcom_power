@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a27e5420_80651d26",
+        "filename": "power-helper.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000002
+      },
+      "writtenOn": "2018-07-07T14:37:00Z",
+      "side": 1,
+      "message": "Lowercase, and I\u0027d prefer something like touch_boost_enabled.",
+      "range": {
+        "startLine": 65,
+        "startChar": 12,
+        "endLine": 65,
+        "endChar": 30
+      },
+      "revId": "67a76fcf9788c0eba8916fba0957ae1f4a169151",
+      "serverId": "d5e41ece-075f-43fb-b5a6-48951f3d7b1d",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c35687d4_f31954ca",
+        "filename": "power-helper.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1000002
+      },
+      "writtenOn": "2018-07-07T14:37:00Z",
+      "side": 1,
+      "message": "Add an early return here, something like:\nif (!touch_boost_enabled) {\n    return;\n}\n\nAnd then you won\u0027t need any other checks in the code.",
+      "revId": "67a76fcf9788c0eba8916fba0957ae1f4a169151",
+      "serverId": "d5e41ece-075f-43fb-b5a6-48951f3d7b1d",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d1dbc423_89e68d7b",
+        "filename": "power-helper.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1000002
+      },
+      "writtenOn": "2018-07-07T14:37:00Z",
+      "side": 1,
+      "message": "Instead of adding a new log below this, just change this to something like:\n%s: failed to send: %s, disabling touch boost",
+      "range": {
+        "startLine": 328,
+        "startChar": 15,
+        "endLine": 328,
+        "endChar": 37
+      },
+      "revId": "67a76fcf9788c0eba8916fba0957ae1f4a169151",
+      "serverId": "d5e41ece-075f-43fb-b5a6-48951f3d7b1d",
+      "unresolved": false
+    }
+  ]
+}
