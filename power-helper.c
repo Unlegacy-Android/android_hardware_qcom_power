@@ -62,6 +62,7 @@
 #error "Unknown platform."
 #endif
 
+static bool touch_boost_enabled = 1;
 static int client_sockfd;
 static struct sockaddr_un client_addr;
 static int last_state = -1;
@@ -313,6 +314,10 @@ static void touch_boost()
     pid_t client;
     char data[MAX_LENGTH];
 
+    if (!touch_boost_enabled) {
+        return;
+    }
+
     if (client_sockfd < 0) {
         ALOGE("%s: boost socket not created", __func__);
         return;
@@ -324,7 +329,8 @@ static void touch_boost()
     rc = sendto(client_sockfd, data, strlen(data), 0,
         (const struct sockaddr *)&client_addr, sizeof(struct sockaddr_un));
     if (rc < 0) {
-        ALOGE("%s: failed to send: %s", __func__, strerror(errno));
+        ALOGE("%s: failed to send: %s","disabling touchboost", __func__, strerror(errno));
+        touch_boost_enabled  = 0
     }
 }
 
