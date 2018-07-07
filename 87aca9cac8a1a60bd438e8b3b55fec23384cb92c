@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf1bf308_97ab36e1",
+        "filename": "power-helper.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000002
+      },
+      "writtenOn": "2018-07-07T15:19:18Z",
+      "side": 1,
+      "message": "true",
+      "range": {
+        "startLine": 65,
+        "startChar": 34,
+        "endLine": 65,
+        "endChar": 35
+      },
+      "revId": "87aca9cac8a1a60bd438e8b3b55fec23384cb92c",
+      "serverId": "d5e41ece-075f-43fb-b5a6-48951f3d7b1d",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "71fb4d81_67c1022c",
+        "filename": "power-helper.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1000002
+      },
+      "writtenOn": "2018-07-07T15:19:18Z",
+      "side": 1,
+      "message": "\u003d false;",
+      "range": {
+        "startLine": 333,
+        "startChar": 27,
+        "endLine": 333,
+        "endChar": 32
+      },
+      "revId": "87aca9cac8a1a60bd438e8b3b55fec23384cb92c",
+      "serverId": "d5e41ece-075f-43fb-b5a6-48951f3d7b1d",
+      "unresolved": false
+    }
+  ]
+}
