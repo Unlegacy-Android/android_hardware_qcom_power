@@ -21,6 +21,7 @@
 #include <sys/un.h>
 #include <fcntl.h>
 #include <dlfcn.h>
+#include <cutils/properties.h>
 #include <cutils/uevent.h>
 #include <errno.h>
 #include <sys/poll.h>
@@ -64,6 +65,7 @@
 static int client_sockfd;
 static struct sockaddr_un client_addr;
 static int last_state = -1;
+static bool skip_touch_boost;
 
 static struct pollfd pfd;
 static char *cpu_path_min[] = {
@@ -215,6 +217,11 @@ static void uevent_init()
 static void power_init(__attribute__((unused)) struct power_module *module)
 {
     ALOGI("%s", __func__);
+
+    skip_touch_boost = property_get_bool("persist.power.skip_tb", false);
+
+    ALOGW_IF(skip_touch_boost, "%s: touch boost disabled", __func__);
+
     socket_init();
     uevent_init();
 }
@@ -311,6 +318,10 @@ static void touch_boost()
     int rc;
     pid_t client;
     char data[MAX_LENGTH];
+
+    if (skip_touch_boost) {
+        return;
+    }
 
     if (client_sockfd < 0) {
         ALOGE("%s: boost socket not created", __func__);
