@@ -61,6 +61,7 @@
 #else
 #error "Unknown platform."
 #endif
+#define TOUCH_BOOST_SWITCH 1
 
 static int client_sockfd;
 static struct sockaddr_un client_addr;
@@ -325,6 +326,8 @@ static void touch_boost()
         (const struct sockaddr *)&client_addr, sizeof(struct sockaddr_un));
     if (rc < 0) {
         ALOGE("%s: failed to send: %s", __func__, strerror(errno));
+        ALOGE("%s: as touchboost failed. it will be disabled.":, strerror(errno));
+        TOUCH_BOOST_SWITCH = 0
     }
 }
 
@@ -342,7 +345,9 @@ void power_set_interactive(int on)
     ALOGV("%s %s", __func__, (on ? "ON" : "OFF"));
     if (on) {
         sync_thread(0);
+        if (TOUCH_BOOST_SWITCH == 1) {
         touch_boost();
+        }
     } else {
         sync_thread(1);
     }
@@ -353,11 +358,13 @@ void power_hint(power_hint_t hint, void *data)
     int cpu, ret;
 
     switch (hint) {
+        if (TOUCH_BOOST_SWITCH == 1) {
         case POWER_HINT_INTERACTION:
         case POWER_HINT_LAUNCH:
             ALOGV("POWER_HINT_INTERACTION");
             touch_boost();
             break;
+        }
 #if 0
         case POWER_HINT_VSYNC:
             ALOGV("POWER_HINT_VSYNC %s", (data ? "ON" : "OFF"));
