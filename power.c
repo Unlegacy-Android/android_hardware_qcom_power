@@ -65,6 +65,7 @@
 static int client_sockfd;
 static struct sockaddr_un client_addr;
 static int last_state = -1;
+static bool skip_sync_thread;
 static bool skip_touch_boost;
 
 static struct pollfd pfd;
@@ -218,6 +219,10 @@ static void power_init(__attribute__((unused)) struct power_module *module)
 {
     ALOGI("%s", __func__);
 
+    skip_sync_thread = property_get_bool("persist.power.skip_st", false);
+
+    ALOGW_IF(skip_sync_thread, "%s: sync thread disabled", __func__);
+
     skip_touch_boost = property_get_bool("persist.power.skip_tb", false);
 
     ALOGW_IF(skip_touch_boost, "%s: touch boost disabled", __func__);
@@ -231,6 +236,10 @@ static void sync_thread(int off)
     int rc;
     pid_t client;
     char data[MAX_LENGTH];
+
+    if (skip_sync_thread) {
+        return;
+    }
 
     if (client_sockfd < 0) {
         ALOGE("%s: boost socket not created", __func__);
